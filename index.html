@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Weather App</h1>
+    <input type="text" id="cityName" placeholder="Enter City Name">
+    <button onclick="checkWeather()">Check Weather</button>
+
+    <div id="weatherContainer" class="container">
+        <div class="tab-buttons">
+            <button onclick="home()">Home</button>
+            <button onclick="showSection('today')">Today</button>
+            <button onclick="showSection('hourly')">Hourly</button>
+            <button onclick="showSection('tenDay')">10 Day</button>
+        </div>
+        <div id="today" class="weather-section active"></div>
+        <div id="hourly" class="weather-section"></div>
+        <div id="tenDay" class="weather-section"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Weather App. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
