@@ -8,7 +8,8 @@
     body {
       font-family: Arial;
       text-align: center;
-      background: #fff3e0;
+      background: url('https://images.pexels.com/photos/259620/pexels-photo-259620.jpeg') no-repeat center center fixed;
+      background-size: cover;
       padding: 0;
       margin: 0;
       display: flex;
@@ -18,10 +19,11 @@
     .content {
       flex: 1;
       padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8); /* slightly transparent white background */
     }
     .weather {
-      background: #ffcc80;
-      padding: 20px;
+      background: white;
+      padding: 50px;
       border-radius: 10px;
       display: inline-block;
       margin-top: 20px;
@@ -47,6 +49,13 @@
       color: white;
       padding: 10px;
       text-align: center;
+    }
+    /* Added styling for the weather icon */
+    .weather img {
+      width: 80px; /* Size it to a good resolution */
+      height: 80px; /* Ensure it's properly sized */
+      object-fit: contain;
+      margin: 10px 0;
     }
   </style>
 </head>
@@ -77,10 +86,10 @@
             document.getElementById("todayWeather").innerText = "City not found.";
             return;
           }
-          const icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+          const icon = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`; // Using the higher resolution icon
           document.getElementById("todayWeather").innerHTML = `
             <h2>${city}</h2>
-            <img src="${icon}" alt="Weather Icon">
+            <img src="${icon}" alt="Weather Icon" srcset="${icon} 1x, ${icon} 2x, ${icon} 4x">
             <p>${data.main.temp}&deg;C - ${data.weather[0].description}</p>
             <p>Wind: ${data.wind.speed} km/h</p>
             <p>Humidity: ${data.main.humidity}%</p>
