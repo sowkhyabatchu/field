@@ -5,30 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>10-Day Forecast</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background: #fff8e1; margin: 0; padding: 20px; }
-        .forecast { margin-top: 20px; }
-        footer { background: #333; color: white; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('https://images.pexels.com/photos/186980/pexels-photo-186980.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 800px;
+            margin: 50px auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .forecast {
+            margin-top: 20px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
         .back-btn {
-      background-color: #fff;
-      color: #6d4c41;
-      border: 2px solid #6d4c41;
-      border-radius: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .back-btn:hover {
-      background-color: #6d4c41;
-      color: white;
-    }
+            background-color: #fff;
+            color: #6d4c41;
+            border: 2px solid #6d4c41;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background-color: #6d4c41;
+            color: white;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2rem;
+        }
     </style>
 </head>
 <body>
     <h1>10-Day Forecast</h1>
-    <div class="forecast" id="tenDayData"></div>
-    <div class="button-container">
-        <button class="back-btn" onclick="history.back()">← Back</button>
-      </div>
+    <div class="container">
+        <div class="forecast" id="tenDayData">Loading...</div>
+        <div class="button-container">
+            <button class="back-btn" onclick="history.back()">← Back</button>
+        </div>
+    </div>
     <footer>&copy; 2025 Weather App</footer>
 
     <script>
@@ -46,7 +86,7 @@
                         let f = data.list[i];
                         let date = new Date(f.dt * 1000).toDateString();
                         let iconUrl = `https://openweathermap.org/img/wn/${f.weather[0].icon}.png`;
-                        html += `<p><strong>${date}</strong>: ${f.main.temp}&deg;C, ${f.weather[0].description} <img src="${iconUrl}"></p>`;
+                        html += `<p><strong>${date}</strong>: ${f.main.temp}&deg;C, ${f.weather[0].description} <img src="${iconUrl}" alt="weather icon"></p>`;
                     }
                     document.getElementById("tenDayData").innerHTML = html;
                 })
