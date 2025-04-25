@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Today's Weather</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #fff3e0;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+    .weather {
+      background: #ffcc80;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+    .button-container {
+      margin-top: 20px;
+    }
+    .back-btn {
+      background-color: #fff;
+      color: #6d4c41;
+      border: 2px solid #6d4c41;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .back-btn:hover {
+      background-color: #6d4c41;
+      color: white;
+    }
+    footer {
+      background: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>Today's Weather</h1>
+    <div id="todayWeather" class="weather">Loading...</div>
+    <div class="button-container">
+      <button class="back-btn" onclick="history.back()">← Back</button>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Weather App
+  </footer>
+
+  <script>
+    const apiKey = "c0106f4fef38c3060fe8b8893e5e29cf";
+    const city = localStorage.getItem("cityName");
+
+    if (!city) {
+      document.getElementById("todayWeather").innerText = "No city selected!";
+    } else {
+      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.cod !== 200) {
+            document.getElementById("todayWeather").innerText = "City not found.";
+            return;
+          }
+          const icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+          document.getElementById("todayWeather").innerHTML = `
+            <h2>${city}</h2>
+            <img src="${icon}" alt="Weather Icon">
+            <p>${data.main.temp}&deg;C - ${data.weather[0].description}</p>
+            <p>Wind: ${data.wind.speed} km/h</p>
+            <p>Humidity: ${data.main.humidity}%</p>
+          `;
+        })
+        .catch(() => {
+          document.getElementById("todayWeather").innerText = "Error fetching data.";
+        });
+    }
+  </script>
+</body>
+</html>
