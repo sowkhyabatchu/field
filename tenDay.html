@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10-Day Forecast</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background: #fff8e1; margin: 0; padding: 20px; }
+        .forecast { margin-top: 20px; }
+        footer { background: #333; color: white; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+        .back-btn {
+      background-color: #fff;
+      color: #6d4c41;
+      border: 2px solid #6d4c41;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .back-btn:hover {
+      background-color: #6d4c41;
+      color: white;
+    }
+    </style>
+</head>
+<body>
+    <h1>10-Day Forecast</h1>
+    <div class="forecast" id="tenDayData"></div>
+    <div class="button-container">
+        <button class="back-btn" onclick="history.back()">← Back</button>
+      </div>
+    <footer>&copy; 2025 Weather App</footer>
+
+    <script>
+        const apiKey = "c0106f4fef38c3060fe8b8893e5e29cf";
+        const city = localStorage.getItem("cityName");
+
+        if (!city) {
+            document.getElementById("tenDayData").innerHTML = "No city found!";
+        } else {
+            fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`)
+                .then(res => res.json())
+                .then(data => {
+                    let html = `<h2>${city}</h2>`;
+                    for (let i = 0; i < data.list.length; i += 8) {
+                        let f = data.list[i];
+                        let date = new Date(f.dt * 1000).toDateString();
+                        let iconUrl = `https://openweathermap.org/img/wn/${f.weather[0].icon}.png`;
+                        html += `<p><strong>${date}</strong>: ${f.main.temp}&deg;C, ${f.weather[0].description} <img src="${iconUrl}"></p>`;
+                    }
+                    document.getElementById("tenDayData").innerHTML = html;
+                })
+                .catch(() => document.getElementById("tenDayData").innerHTML = "Failed to load 10-day forecast.");
+        }
+    </script>
+</body>
+</html>
