@@ -1,32 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+      background-size: cover;
+      text-align: center;
+      padding: 20px;
+      color: white;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 5px;
+    }
+    input {
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #00796b;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004d40;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-    <h1>Weather App</h1>
-    <input type="text" id="cityName" placeholder="Enter City Name">
-    <button onclick="checkWeather()">Check Weather</button>
+  <h1>Weather App</h1>
+  <input type="text" id="cityInput" placeholder="Enter City Name" />
+  <br />
+  <button onclick="goToPage('today.html')">Today Forecast</button>
+  <button onclick="goToPage('hourly.html')">Hourly Forecast</button>
+  <button onclick="goToPage('tenDay.html')">10-Day Forecast</button>
 
-    <div id="weatherContainer" class="container">
-        <div class="tab-buttons">
-            <button onclick="home()">Home</button>
-            <button onclick="showSection('today')">Today</button>
-            <button onclick="showSection('hourly')">Hourly</button>
-            <button onclick="showSection('tenDay')">10 Day</button>
-        </div>
-        <div id="today" class="weather-section active"></div>
-        <div id="hourly" class="weather-section"></div>
-        <div id="tenDay" class="weather-section"></div>
-    </div>
+  <footer>&copy; 2025 Weather App</footer>
 
-    <footer>
-        <p>&copy; 2025 Weather App. All rights reserved.</p>
-    </footer>
-
-    <script src="script.js"></script>
+  <script>
+    function goToPage(page) {
+      const city = document.getElementById("cityInput").value.trim();
+      if (!city) {
+        alert("Please enter a city name!");
+        return;
+      }
+      localStorage.setItem("cityName", city);
+      window.location.href = page;
+    }
+  </script>
 </body>
 </html>
