@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hourly Forecast</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background: #e0f7fa; margin: 0; padding: 20px; }
-        .forecast { margin-top: 20px; }
-        footer { background: #333; color: white; padding: 10px; position: fixed; bottom: 0; width: 100%; }
-        .back-btn {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hourly Forecast</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      background: url('https://images.pexels.com/photos/2310641/pexels-photo-2310641.jpeg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .forecast-box {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      margin: 50px auto;
+      border-radius: 12px;
+      max-width: 500px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .forecast-box h2 {
+      margin-top: 0;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .back-btn {
       background-color: #fff;
       color: #6d4c41;
       border: 2px solid #6d4c41;
@@ -16,42 +44,55 @@
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
+      margin-top: 20px;
     }
+
     .back-btn:hover {
       background-color: #6d4c41;
       color: white;
     }
-    </style>
+
+    img {
+      vertical-align: middle;
+      width: 50px; /* Size the icon */
+      height: 50px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Hourly Forecast</h1>
-    <div class="forecast" id="hourlyData"></div>
+  <h1>Hourly Forecast</h1>
+  <div class="forecast-box">
+    <div class="forecast" id="hourlyData">Loading...</div>
     <div class="button-container">
-        <button class="back-btn" onclick="history.back()">← Back</button>
-      </div>
-    <footer>&copy; 2025 Weather App</footer>
+      <button class="back-btn" onclick="history.back()">← Back</button>
+    </div>
+  </div>
+  <footer>&copy; 2025 Weather App</footer>
 
-    <script>
-        const apiKey = "c0106f4fef38c3060fe8b8893e5e29cf";
-        const city = localStorage.getItem("cityName");
+  <script>
+    const apiKey = "c0106f4fef38c3060fe8b8893e5e29cf";
+    const city = localStorage.getItem("cityName");
 
-        if (!city) {
-            document.getElementById("hourlyData").innerHTML = "No city found!";
-        } else {
-            fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`)
-                .then(res => res.json())
-                .then(data => {
-                    let html = `<h2>${city}</h2>`;
-                    for (let i = 0; i < 5; i++) {
-                        let f = data.list[i];
-                        let time = new Date(f.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                        let iconUrl = `https://openweathermap.org/img/wn/${f.weather[0].icon}.png`;
-                        html += `<p><strong>${time}</strong>: ${f.main.temp}&deg;C, ${f.weather[0].description} <img src="${iconUrl}"></p>`;
-                    }
-                    document.getElementById("hourlyData").innerHTML = html;
-                })
-                .catch(() => document.getElementById("hourlyData").innerHTML = "Failed to load hourly forecast.");
-        }
-    </script>
+    if (!city) {
+      document.getElementById("hourlyData").innerHTML = "No city found!";
+    } else {
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`)
+        .then(res => res.json())
+        .then(data => {
+          let html = `<h2>${city}</h2>`;
+          for (let i = 0; i < 5; i++) {
+            let f = data.list[i];
+            let time = new Date(f.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            // Adjusted icon URL to ensure correct loading
+            let iconUrl = `https://openweathermap.org/img/wn/${f.weather[0].icon}@2x.png`; // Higher resolution icon
+            html += `<p><strong>${time}</strong>: ${f.main.temp}&deg;C, ${f.weather[0].description} <img src="${iconUrl}" alt="Weather Icon"></p>`;
+          }
+          document.getElementById("hourlyData").innerHTML = html;
+        })
+        .catch(() => {
+          document.getElementById("hourlyData").innerHTML = "Failed to load hourly forecast.";
+        });
+    }
+  </script>
 </body>
 </html>
